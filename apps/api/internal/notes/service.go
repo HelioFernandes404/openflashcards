@@ -7,6 +7,7 @@ import (
 
 	"github.com/HelioFernandes404/openflashcards/apps/api/internal/shared/apperror"
 	db "github.com/HelioFernandes404/openflashcards/apps/api/internal/shared/db/sqlc"
+	"github.com/HelioFernandes404/openflashcards/apps/api/internal/shared/pagination"
 	"github.com/google/uuid"
 	"github.com/jackc/pgx/v5"
 	"github.com/jackc/pgx/v5/pgxpool"
@@ -52,8 +53,12 @@ func (s *Service) Create(ctx context.Context, in CreateInput) (Note, error) {
 	return mapNote(row), nil
 }
 
-func (s *Service) ListByUser(ctx context.Context, userID uuid.UUID) ([]Note, error) {
-	rows, err := s.q.ListNotesByUser(ctx, userID)
+func (s *Service) ListByUser(ctx context.Context, userID uuid.UUID, page pagination.Params) ([]Note, error) {
+	rows, err := s.q.ListNotesByUser(ctx, db.ListNotesByUserParams{
+		UserID:     userID,
+		PageLimit:  page.Limit,
+		PageOffset: page.Offset,
+	})
 	if err != nil {
 		return nil, err
 	}

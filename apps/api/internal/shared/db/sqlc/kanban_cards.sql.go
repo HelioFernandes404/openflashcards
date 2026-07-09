@@ -106,10 +106,17 @@ ORDER BY CASE status
     WHEN 'in_progress' THEN 2
     WHEN 'done' THEN 3
 END, position ASC
+LIMIT $3 OFFSET $2
 `
 
-func (q *Queries) ListKanbanCardsByUser(ctx context.Context, userID uuid.UUID) ([]KanbanCard, error) {
-	rows, err := q.db.Query(ctx, listKanbanCardsByUser, userID)
+type ListKanbanCardsByUserParams struct {
+	UserID     uuid.UUID `json:"user_id"`
+	PageOffset int32     `json:"page_offset"`
+	PageLimit  int32     `json:"page_limit"`
+}
+
+func (q *Queries) ListKanbanCardsByUser(ctx context.Context, arg ListKanbanCardsByUserParams) ([]KanbanCard, error) {
+	rows, err := q.db.Query(ctx, listKanbanCardsByUser, arg.UserID, arg.PageOffset, arg.PageLimit)
 	if err != nil {
 		return nil, err
 	}

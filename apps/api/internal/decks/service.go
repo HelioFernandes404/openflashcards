@@ -8,6 +8,7 @@ import (
 
 	"github.com/HelioFernandes404/openflashcards/apps/api/internal/shared/apperror"
 	db "github.com/HelioFernandes404/openflashcards/apps/api/internal/shared/db/sqlc"
+	"github.com/HelioFernandes404/openflashcards/apps/api/internal/shared/pagination"
 	"github.com/google/uuid"
 	"github.com/jackc/pgx/v5"
 	"github.com/jackc/pgx/v5/pgxpool"
@@ -71,8 +72,12 @@ func (s *Service) Create(ctx context.Context, in CreateInput) (Deck, error) {
 	return mapDeck(row), nil
 }
 
-func (s *Service) ListByUser(ctx context.Context, userID uuid.UUID) ([]Deck, error) {
-	rows, err := s.q.ListDecksByUser(ctx, userID)
+func (s *Service) ListByUser(ctx context.Context, userID uuid.UUID, page pagination.Params) ([]Deck, error) {
+	rows, err := s.q.ListDecksByUser(ctx, db.ListDecksByUserParams{
+		UserID:     userID,
+		PageLimit:  page.Limit,
+		PageOffset: page.Offset,
+	})
 	if err != nil {
 		return nil, err
 	}

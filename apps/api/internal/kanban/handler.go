@@ -6,13 +6,14 @@ import (
 
 	"github.com/HelioFernandes404/openflashcards/apps/api/internal/auth"
 	"github.com/HelioFernandes404/openflashcards/apps/api/internal/shared/apperror"
+	"github.com/HelioFernandes404/openflashcards/apps/api/internal/shared/pagination"
 	"github.com/gin-gonic/gin"
 	"github.com/google/uuid"
 )
 
 type kanbanServicer interface {
 	Create(ctx context.Context, in CreateInput) (KanbanCard, error)
-	ListByUser(ctx context.Context, userID uuid.UUID, status *string) ([]KanbanCard, error)
+	ListByUser(ctx context.Context, userID uuid.UUID, status *string, page pagination.Params) ([]KanbanCard, error)
 	GetByID(ctx context.Context, id, userID uuid.UUID) (KanbanCard, error)
 	Update(ctx context.Context, id, userID uuid.UUID, in UpdateInput) (KanbanCard, error)
 	Delete(ctx context.Context, id, userID uuid.UUID) error
@@ -97,7 +98,8 @@ func (h *Handler) list(c *gin.Context) {
 	if q := c.Query("status"); q != "" {
 		status = &q
 	}
-	cards, err := h.svc.ListByUser(c.Request.Context(), uid, status)
+	page := pagination.Parse(c.Query("page"), c.Query("pageSize"))
+	cards, err := h.svc.ListByUser(c.Request.Context(), uid, status, page)
 	if err != nil {
 		auth.WriteError(c, err)
 		return

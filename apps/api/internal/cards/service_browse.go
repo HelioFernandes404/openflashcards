@@ -5,6 +5,7 @@ import (
 	"time"
 
 	db "github.com/HelioFernandes404/openflashcards/apps/api/internal/shared/db/sqlc"
+	"github.com/HelioFernandes404/openflashcards/apps/api/internal/shared/pagination"
 	"github.com/google/uuid"
 )
 
@@ -29,6 +30,7 @@ type BrowseFilters struct {
 type BrowseQuery struct {
 	FilterType  string
 	FilterValue string
+	Page        pagination.Params
 }
 
 var browseStateOptions = []BrowseFilterOption{
@@ -139,7 +141,11 @@ func (s *Service) Browse(ctx context.Context, userID uuid.UUID, q BrowseQuery) (
 	now := time.Now().UTC()
 	dayStart := startOfDayUTC(now)
 
-	params := db.BrowseUserCardsParams{UserID: userID}
+	params := db.BrowseUserCardsParams{
+		UserID:     userID,
+		PageLimit:  q.Page.Limit,
+		PageOffset: q.Page.Offset,
+	}
 
 	switch q.FilterType {
 	case "", "all":

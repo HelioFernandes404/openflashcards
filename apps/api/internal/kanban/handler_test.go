@@ -12,6 +12,7 @@ import (
 
 	"github.com/HelioFernandes404/openflashcards/apps/api/internal/auth"
 	"github.com/HelioFernandes404/openflashcards/apps/api/internal/shared/apperror"
+	"github.com/HelioFernandes404/openflashcards/apps/api/internal/shared/pagination"
 	"github.com/gin-gonic/gin"
 	"github.com/google/uuid"
 )
@@ -51,7 +52,7 @@ func (f *fakeKanbanService) Create(_ context.Context, in CreateInput) (KanbanCar
 	return c, nil
 }
 
-func (f *fakeKanbanService) ListByUser(_ context.Context, userID uuid.UUID, status *string) ([]KanbanCard, error) {
+func (f *fakeKanbanService) ListByUser(_ context.Context, userID uuid.UUID, status *string, _ pagination.Params) ([]KanbanCard, error) {
 	out := make([]KanbanCard, 0)
 	for _, c := range f.cards {
 		if c.UserID != userID {

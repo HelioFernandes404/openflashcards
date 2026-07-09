@@ -6,13 +6,14 @@ import (
 
 	"github.com/HelioFernandes404/openflashcards/apps/api/internal/auth"
 	"github.com/HelioFernandes404/openflashcards/apps/api/internal/shared/apperror"
+	"github.com/HelioFernandes404/openflashcards/apps/api/internal/shared/pagination"
 	"github.com/gin-gonic/gin"
 	"github.com/google/uuid"
 )
 
 type noteServicer interface {
 	Create(ctx context.Context, in CreateInput) (Note, error)
-	ListByUser(ctx context.Context, userID uuid.UUID) ([]Note, error)
+	ListByUser(ctx context.Context, userID uuid.UUID, page pagination.Params) ([]Note, error)
 	GetByID(ctx context.Context, id, userID uuid.UUID) (Note, error)
 	Update(ctx context.Context, id, userID uuid.UUID, in UpdateInput) (Note, error)
 	Delete(ctx context.Context, id, userID uuid.UUID) error
@@ -75,7 +76,8 @@ func (h *Handler) create(c *gin.Context) {
 
 func (h *Handler) list(c *gin.Context) {
 	uid, _ := auth.UserIDFrom(c)
-	notes, err := h.svc.ListByUser(c.Request.Context(), uid)
+	page := pagination.Parse(c.Query("page"), c.Query("pageSize"))
+	notes, err := h.svc.ListByUser(c.Request.Context(), uid, page)
 	if err != nil {
 		auth.WriteError(c, err)
 		return

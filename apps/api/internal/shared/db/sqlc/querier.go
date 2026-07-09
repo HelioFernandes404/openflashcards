@@ -77,18 +77,18 @@ type Querier interface {
 	GetUserByID(ctx context.Context, id uuid.UUID) (User, error)
 	GetUserByNickname(ctx context.Context, nickname string) (User, error)
 	ListCardsByDeck(ctx context.Context, deckID uuid.UUID) ([]Card, error)
-	ListDecksByUser(ctx context.Context, userID uuid.UUID) ([]Deck, error)
+	ListDecksByUser(ctx context.Context, arg ListDecksByUserParams) ([]Deck, error)
 	// Ranks 'new' cards by due date and drops any beyond sqlc.arg(max_new_cards)
 	// BEFORE applying LIMIT/OFFSET, so pagination reflects exactly what the
 	// caller is allowed to consume (see CountDueCardsByDeck for the matching
 	// total). Non-new cards are never capped by this rank.
 	ListDueCardsByDeck(ctx context.Context, arg ListDueCardsByDeckParams) ([]ListDueCardsByDeckRow, error)
 	ListDueCardsByUser(ctx context.Context, arg ListDueCardsByUserParams) ([]Card, error)
-	ListKanbanCardsByUser(ctx context.Context, userID uuid.UUID) ([]KanbanCard, error)
+	ListKanbanCardsByUser(ctx context.Context, arg ListKanbanCardsByUserParams) ([]KanbanCard, error)
 	ListKanbanCardsByUserAndStatus(ctx context.Context, arg ListKanbanCardsByUserAndStatusParams) ([]KanbanCard, error)
 	ListLettersByUser(ctx context.Context, userID uuid.UUID) ([]Letter, error)
 	ListModulesByUser(ctx context.Context, userID uuid.UUID) ([]Module, error)
-	ListNotesByUser(ctx context.Context, userID uuid.UUID) ([]Note, error)
+	ListNotesByUser(ctx context.Context, arg ListNotesByUserParams) ([]Note, error)
 	ListPromptTemplatesByUser(ctx context.Context, userID uuid.UUID) ([]PromptTemplate, error)
 	ListReviewsByUserForOptimizer(ctx context.Context, userID uuid.UUID) ([]ListReviewsByUserForOptimizerRow, error)
 	ListStudyPlansByUser(ctx context.Context, userID uuid.UUID) ([]StudyPlan, error)

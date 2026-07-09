@@ -14,7 +14,8 @@ SELECT * FROM decks WHERE id = $1;
 SELECT * FROM decks WHERE id = $1 FOR UPDATE;
 
 -- name: ListDecksByUser :many
-SELECT * FROM decks WHERE user_id = $1 ORDER BY created_at DESC;
+SELECT * FROM decks WHERE user_id = sqlc.arg(user_id) ORDER BY created_at DESC
+LIMIT sqlc.arg(page_limit) OFFSET sqlc.arg(page_offset);
 
 -- name: UpdateDeck :one
 UPDATE decks

@@ -7,6 +7,7 @@ import (
 
 	"github.com/HelioFernandes404/openflashcards/apps/api/internal/shared/apperror"
 	db "github.com/HelioFernandes404/openflashcards/apps/api/internal/shared/db/sqlc"
+	"github.com/HelioFernandes404/openflashcards/apps/api/internal/shared/pagination"
 	"github.com/google/uuid"
 	"github.com/jackc/pgx/v5"
 	"github.com/jackc/pgx/v5/pgxpool"
@@ -89,13 +90,17 @@ func (s *Service) Create(ctx context.Context, in CreateInput) (KanbanCard, error
 	return mapKanbanCard(row), nil
 }
 
-func (s *Service) ListByUser(ctx context.Context, userID uuid.UUID, status *string) ([]KanbanCard, error) {
+func (s *Service) ListByUser(ctx context.Context, userID uuid.UUID, status *string, page pagination.Params) ([]KanbanCard, error) {
 	var rows []db.KanbanCard
 	var err error
 	if status != nil && *status != "" {
 		rows, err = s.q.ListKanbanCardsByUserAndStatus(ctx, db.ListKanbanCardsByUserAndStatusParams{UserID: userID, Status: *status})
 	} else {
-		rows, err = s.q.ListKanbanCardsByUser(ctx, userID)
+		rows, err = s.q.ListKanbanCardsByUser(ctx, db.ListKanbanCardsByUserParams{
+			UserID:     userID,
+			PageLimit:  page.Limit,
+			PageOffset: page.Offset,
+		})
 	}
 	if err != nil {
 		return nil, err

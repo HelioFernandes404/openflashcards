@@ -9,7 +9,8 @@ RETURNING *;
 SELECT * FROM notes WHERE id = $1;
 
 -- name: ListNotesByUser :many
-SELECT * FROM notes WHERE user_id = $1 ORDER BY updated_at DESC;
+SELECT * FROM notes WHERE user_id = sqlc.arg(user_id) ORDER BY updated_at DESC
+LIMIT sqlc.arg(page_limit) OFFSET sqlc.arg(page_offset);
 
 -- name: UpdateNote :one
 UPDATE notes

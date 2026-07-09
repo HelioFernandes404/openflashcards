@@ -10,13 +10,14 @@ SELECT * FROM kanban_cards WHERE id = $1;
 
 -- name: ListKanbanCardsByUser :many
 SELECT * FROM kanban_cards
-WHERE user_id = $1
+WHERE user_id = sqlc.arg(user_id)
 ORDER BY CASE status
     WHEN 'backlog' THEN 0
     WHEN 'todo' THEN 1
     WHEN 'in_progress' THEN 2
     WHEN 'done' THEN 3
-END, position ASC;
+END, position ASC
+LIMIT sqlc.arg(page_limit) OFFSET sqlc.arg(page_offset);
 
 -- name: ListKanbanCardsByUserAndStatus :many
 SELECT * FROM kanban_cards

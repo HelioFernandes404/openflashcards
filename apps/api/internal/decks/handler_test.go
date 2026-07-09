@@ -11,6 +11,7 @@ import (
 
 	"github.com/HelioFernandes404/openflashcards/apps/api/internal/auth"
 	"github.com/HelioFernandes404/openflashcards/apps/api/internal/shared/apperror"
+	"github.com/HelioFernandes404/openflashcards/apps/api/internal/shared/pagination"
 	"github.com/gin-gonic/gin"
 	"github.com/google/uuid"
 )
@@ -44,7 +45,7 @@ func (f *fakeDeckService) Create(_ context.Context, in CreateInput) (Deck, error
 	return d, nil
 }
 
-func (f *fakeDeckService) ListByUser(_ context.Context, userID uuid.UUID) ([]Deck, error) {
+func (f *fakeDeckService) ListByUser(_ context.Context, userID uuid.UUID, _ pagination.Params) ([]Deck, error) {
 	out := make([]Deck, 0)
 	for _, d := range f.decks {
 		if d.UserID == userID {
