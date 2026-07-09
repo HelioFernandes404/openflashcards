@@ -11,8 +11,8 @@ import (
 
 type createReq struct {
 	DeckID     string  `json:"deckId" binding:"required"`
-	Front      string  `json:"front" binding:"required,min=1"`
-	Back       string  `json:"back" binding:"required,min=1"`
+	Front      string  `json:"front" binding:"required,min=1,max=50000"`
+	Back       string  `json:"back" binding:"required,min=1,max=50000"`
 	AudioURL   *string `json:"audioUrl"`
 	ImagemURL  *string `json:"imagemUrl"`
 	Phonetic   *string `json:"phonetic"`
@@ -53,8 +53,8 @@ func (h *Handler) create(c *gin.Context) {
 }
 
 type updateReq struct {
-	Front      *string `json:"front"`
-	Back       *string `json:"back"`
+	Front      *string `json:"front" binding:"omitempty,max=50000"`
+	Back       *string `json:"back" binding:"omitempty,max=50000"`
 	AudioURL   *string `json:"audioUrl"`
 	ImagemURL  *string `json:"imagemUrl"`
 	Phonetic   *string `json:"phonetic"`

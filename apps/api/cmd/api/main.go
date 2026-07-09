@@ -34,6 +34,13 @@ import (
 	"go.uber.org/zap"
 )
 
+// defaultMaxBodyBytes bounds the size of any JSON/form request body across
+// the API. It must stay well above the largest legitimate text payload
+// (card front/back markdown, etc.) but far below what could exhaust process
+// memory. The media upload endpoint overrides this with its own, larger
+// limit derived from cfg.MediaMaxImageBytes.
+const defaultMaxBodyBytes = 5 << 20 // 5MB
+
 func main() {
 	if err := run(); err != nil {
 		fmt.Fprintf(os.Stderr, "fatal: %v\n", err)
@@ -144,6 +151,10 @@ func run() error {
 	}
 	r := gin.New()
 	r.Use(middleware.Recovery(log))
+	// Bound every request body before any handler's JSON decoder or form
+	// parser buffers it into memory; the media upload handler applies its
+	// own, larger limit for the upload endpoint specifically.
+	r.Use(middleware.MaxBodySize(defaultMaxBodyBytes))
 	r.Use(middleware.SecurityHeaders())
 	r.Use(middleware.RequestID())
 	r.Use(middleware.InjectLogger(log))
