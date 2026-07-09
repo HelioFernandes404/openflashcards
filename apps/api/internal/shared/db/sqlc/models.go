@@ -133,6 +133,7 @@ type Review struct {
 	ReviewDurationMs *int32    `json:"review_duration_ms"`
 	Stability        float64   `json:"stability"`
 	Difficulty       float64   `json:"difficulty"`
+	WasNew           bool      `json:"was_new"`
 }
 
 type StudyPlan struct {
