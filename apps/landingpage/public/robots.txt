@@ -1,0 +1,8 @@
+# Robots.txt for OpenFlashcards Landing Page
+# https://heliofernandes404.github.io/openflashcards/
+
+User-agent: *
+Allow: /
+
+# Sitemap location
+Sitemap: https://heliofernandes404.github.io/openflashcards/sitemap-index.xml

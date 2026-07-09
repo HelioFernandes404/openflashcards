@@ -1,0 +1,39 @@
+---
+import Container from "./Container.astro";
+import Logo from "./Logo.astro";
+import { HeaderIsland } from "./HeaderIsland";
+import type { Lang } from "../i18n/utils";
+import { t, getLocalizedPath } from "../i18n/utils";
+
+interface Props {
+  lang: Lang;
+}
+
+const { lang } = Astro.props;
+
+const currentPath = Astro.url.pathname;
+
+const translations = {
+  home: t(lang, "header.navItems.home"),
+  howItWorks: t(lang, "header.navItems.howItWorks"),
+  features: t(lang, "header.navItems.features"),
+  button: t(lang, "header.button"),
+  skipToMain: t(lang, "header.skipToMain"),
+};
+---
+
+<a href="#main" class="sr-only">{translations.skipToMain}</a>
+
+<header
+  class="w-full py-4 flex items-center justify-between border-b border-white/10 fixed top-0 left-0 right-0 z-50 bg-surface-container-low/95 backdrop-blur-xl"
+>
+  <Container class="flex items-center justify-between">
+    <Logo lang={lang} href={getLocalizedPath(lang, "/")} />
+    <HeaderIsland
+      client:load
+      lang={lang}
+      currentPath={currentPath}
+      translations={translations}
+    />
+  </Container>
+</header>

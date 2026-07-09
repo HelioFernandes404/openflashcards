@@ -1,0 +1,32 @@
+---
+import { Github } from "lucide-react";
+import type { Lang } from "../i18n/utils";
+import { t } from "../i18n/utils";
+
+interface Props {
+  lang: Lang;
+  class?: string;
+}
+
+const { lang, class: className = "" } = Astro.props;
+
+const GITHUB_URL = "https://github.com/HelioFernandes404/openflashcards";
+const QUICKSTART_URL =
+  "https://github.com/HelioFernandes404/openflashcards#quick-start";
+
+const primaryClass =
+  "flex-1 sm:flex-none flex items-center justify-center gap-2 text-center text-base font-medium cursor-pointer text-neutral-0 px-6 py-3 rounded-md bg-gradient-to-br from-primary-500 to-secondary-500 border border-white/10 shadow-glow-primary hover:brightness-110 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-primary-500 transition-all";
+
+const secondaryClass =
+  "flex-1 sm:flex-none flex items-center justify-center text-center text-base font-medium cursor-pointer border border-white/15 bg-white/[0.06] text-on-surface px-6 py-3 rounded-md hover:bg-white/[0.1] focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-primary-500 transition-all";
+---
+
+<div class:list={["w-full flex flex-col sm:flex-row gap-3", className]}>
+  <a href={GITHUB_URL} target="_blank" rel="noopener noreferrer" class={primaryClass}>
+    <Github size={18} />
+    {t(lang, "cta_buttons.github")}
+  </a>
+  <a href={QUICKSTART_URL} target="_blank" rel="noopener noreferrer" class={secondaryClass}>
+    {t(lang, "cta_buttons.quickstart")}
+  </a>
+</div>

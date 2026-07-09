@@ -1,0 +1,108 @@
+{
+  "header": {
+    "skipToMain": "Zum Hauptinhalt springen",
+    "navItems": {
+      "home": "Startseite",
+      "howItWorks": "Wie es funktioniert",
+      "features": "Unterschiedliche Merkmale"
+    },
+    "button": "GitHub",
+    "logo": {
+      "alt": "OpenFlashcards - Selbst gehostete Karteikarten-App mit Spaced Repetition",
+      "title": "OpenFlashcards"
+    }
+  },
+  "home": {
+    "section1": {
+      "title": "Lerne schneller mit Kartenlernen",
+      "paragraph": "Eine App zum Kartenlernen mit abgestufter Wiederholung und intelligenten Funktionen, um jedes Thema in deinem eigenen Tempo zu beherrschen.",
+      "paragraphHighlight": "Kostenlos, Open Source und selbst gehostet."
+    },
+    "section2": {
+      "badge": "Wie es funktioniert",
+      "title": "Verwandle jeden Inhalt in aktives Lernen"
+    },
+    "cards": {
+      "card1": {
+        "title": "Du wählst aus, was du lernen möchtest",
+        "description": "Erstelle deine eigenen Kartenstapel mit Frage- und Antwortkarten. Von Sprachen bis zu exakten Wissenschaften, alles funktioniert."
+      },
+      "card2": {
+        "title": "Lerne mit abgestufter Wiederholung",
+        "description": "Die App erkennt deine Schwierigkeiten und organisiert die Karten, damit du sie zum idealen Zeitpunkt wiederholt."
+      },
+      "card3": {
+        "title": "Dein Lerntag ist für dich vorbereitet",
+        "description": "Jeden Tag sind deine Prioritätskartenstapel auf der Startseite mit Vorschlägen darüber, was du lernen solltest."
+      },
+      "card4": {
+        "title": "Verfolge deine täglichen Fortschritte",
+        "description": "Lerne konsequent und verfolge deine Leistung. Visualisiere deine Lernreise mit Klarheit und Zweck."
+      },
+      "progress": {
+        "title": "Newtonsche Gesetze",
+        "progress": "5 / 10 Karten"
+      }
+    },
+    "features": {
+      "title": "Warum OpenFlashcards nutzen?",
+      "badge": "Unterschiedliche Merkmale",
+      "items": {
+        "textToSpeech": {
+          "title": "Text-zu-Sprache",
+          "description": "Höre dir die korrekte Aussprache deiner Kartentexte über die Text-zu-Sprache-Funktion an. Perfekt für das Sprachentraining und das natürlichere Aufnehmen von Inhalten."
+        },
+        "decks": {
+          "title": "Erstelle so viele Kartenstapel, wie du möchtest",
+          "description": "Füge so viele Kartenstapel und Karten hinzu, wie du möchtest, in deinem eigenen Tempo und auf deine Weise. Organisiere nach Themen, Fächern oder Sprachen und füge so viele Karten wie nötig hinzu."
+        },
+        "ai": {
+          "title": "KI, die dein Lernen beschleunigt",
+          "description": "Die App wird KI-Fähigkeiten haben, die deine Lernweise verändern, deine Leistung analysieren und Inhalte intelligentanpassen.",
+          "badge": "KOMMT BALD"
+        }
+      }
+    },
+    "cta": {
+      "badge": "Open Source",
+      "title": "Kostenlos starten"
+    }
+  },
+  "footer": {
+    "backToTop": "Zurück nach oben",
+    "copyright": "OpenFlashcards. Open Source unter MIT-Lizenz.",
+    "social": {
+      "github": "Quellcode auf GitHub ansehen"
+    }
+  },
+  "faq": {
+    "badge": "FAQ",
+    "title": "Häufig Gestellte Fragen",
+    "items": {
+      "whatIs": {
+        "question": "Was ist OpenFlashcards?",
+        "answer": "OpenFlashcards ist eine Karteikarten-App, die Spaced Repetition mit dem FSRS-Algorithmus nutzt, um dir zu helfen, Informationen effektiver zu lernen und zu behalten. Sie ist für Studenten, Berufstätige und lebenslange Lernende konzipiert."
+      },
+      "spacedRepetition": {
+        "question": "Was ist Spaced Repetition?",
+        "answer": "Spaced Repetition ist eine Lerntechnik, die Wiederholungen in optimalen Intervallen plant, basierend darauf, wie gut du jede Karte kennst. Schwierige Karten erscheinen häufiger, während gut beherrschte seltener gezeigt werden, was die Lerneffizienz maximiert."
+      },
+      "fsrs": {
+        "question": "Was ist der FSRS-Algorithmus?",
+        "answer": "FSRS (Free Spaced Repetition Scheduler) ist ein moderner, forschungsbasierter Algorithmus, der sich an deine persönlichen Lernmuster anpasst. Er ist genauer als traditionelle Algorithmen wie SM-2 und hilft dir, intelligenter zu lernen."
+      },
+      "free": {
+        "question": "Ist OpenFlashcards kostenlos?",
+        "answer": "Ja. OpenFlashcards ist kostenlos und Open Source unter der MIT-Lizenz. Hoste es selbst oder sieh im README nach weiteren Optionen."
+      },
+      "languages": {
+        "question": "Kann ich es zum Sprachenlernen nutzen?",
+        "answer": "Absolut! OpenFlashcards ist perfekt für das Sprachenlernen. Mit Funktionen wie Text-zu-Sprache für Ausspracheübungen und unbegrenzten Kartenstapeln kannst du Vokabel-, Grammatik- und Phrasenkarten für jede Sprache erstellen."
+      }
+    }
+  },
+  "cta_buttons": {
+    "github": "Auf GitHub starten",
+    "quickstart": "Schnellstart"
+  }
+}

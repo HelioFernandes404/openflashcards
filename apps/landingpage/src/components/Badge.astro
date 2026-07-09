@@ -1,0 +1,19 @@
+---
+interface Props {
+  label: string;
+  variant?: "default" | "success";
+}
+
+const { label, variant = "default" } = Astro.props;
+
+const variantStyles = {
+  default:
+    "bg-primary-100/15 text-primary-300 border-primary-500/30 px-4 py-2 border rounded-md font-mono text-2xs uppercase tracking-wider",
+  success:
+    "bg-success-50 text-success-800 border-success-600/30 px-2 py-1 border rounded-sm font-mono text-xs uppercase tracking-wider",
+};
+---
+
+<span class:list={["max-w-fit leading-3", variantStyles[variant]]}>
+  {label}
+</span>

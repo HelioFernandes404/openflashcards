@@ -1,0 +1,108 @@
+{
+  "header": {
+    "skipToMain": "跳转到主要内容",
+    "navItems": {
+      "home": "首页",
+      "howItWorks": "工作原理",
+      "features": "差异化"
+    },
+    "button": "GitHub",
+    "logo": {
+      "alt": "OpenFlashcards - 支持间隔重复的自托管闪卡应用",
+      "title": "OpenFlashcards"
+    }
+  },
+  "home": {
+    "section1": {
+      "title": "使用闪卡在更短的时间内学习更多",
+      "paragraph": "一个具有间隔重复和智能功能的闪卡应用，可帮助您按照自己的节奏掌握任何科目。",
+      "paragraphHighlight": "免费、开源、可自托管。"
+    },
+    "section2": {
+      "badge": "工作原理",
+      "title": "将任何内容转变为主动学习"
+    },
+    "cards": {
+      "card1": {
+        "title": "您选择想要学习的内容",
+        "description": "使用问答卡创建自己的套牌。从语言到精密科学，一切都有效。"
+      },
+      "card2": {
+        "title": "使用间隔重复学习",
+        "description": "该应用确定您的困难，并组织卡片供您在理想时间进行复习。"
+      },
+      "card3": {
+        "title": "您的学习日已为您准备好",
+        "description": "每天，您的优先套牌将在主页上显示，并提供学习建议。"
+      },
+      "card4": {
+        "title": "跟踪您的日常进度",
+        "description": "持续学习并跟踪您的表现。清晰而明确地可视化您的学习之旅。"
+      },
+      "progress": {
+        "title": "牛顿定律",
+        "progress": "5 / 10 张卡"
+      }
+    },
+    "features": {
+      "title": "为什么使用 OpenFlashcards?",
+      "badge": "差异化",
+      "items": {
+        "textToSpeech": {
+          "title": "文字转语音",
+          "description": "通过文本转语音功能听卡片文本的正确发音。非常适合语言培训和更自然地吸收内容。"
+        },
+        "decks": {
+          "title": "创建任意数量的套牌",
+          "description": "按照自己的节奏添加任意数量的套牌和卡片。按主题、科目或语言组织，并根据学习需要添加任意数量的卡片。"
+        },
+        "ai": {
+          "title": "加速学习的人工智能",
+          "description": "该应用将具备人工智能能力，将改变您的学习方式，分析您的表现，并智能地调整内容。",
+          "badge": "即将推出"
+        }
+      }
+    },
+    "cta": {
+      "badge": "开源",
+      "title": "免费开始"
+    }
+  },
+  "footer": {
+    "backToTop": "返回顶部",
+    "copyright": "OpenFlashcards。基于 MIT 许可的开源项目。",
+    "social": {
+      "github": "在 GitHub 上查看源码"
+    }
+  },
+  "faq": {
+    "badge": "常见问题",
+    "title": "常见问题解答",
+    "items": {
+      "whatIs": {
+        "question": "什么是OpenFlashcards？",
+        "answer": "OpenFlashcards是一款使用FSRS算法进行间隔重复的闪卡应用，帮助您更有效地学习和记忆信息。它专为学生、专业人士和终身学习者设计。"
+      },
+      "spacedRepetition": {
+        "question": "什么是间隔重复？",
+        "answer": "间隔重复是一种学习技术，根据您对每张卡片的掌握程度，在最佳间隔安排复习。难度大的卡片出现更频繁，而掌握良好的卡片出现较少，最大化学习效率。"
+      },
+      "fsrs": {
+        "question": "什么是FSRS算法？",
+        "answer": "FSRS（Free Spaced Repetition Scheduler）是一种现代的、基于研究的算法，可适应您的个人学习模式。它比SM-2等传统算法更准确，帮助您更聪明地学习。"
+      },
+      "free": {
+        "question": "OpenFlashcards 免费吗?",
+        "answer": "是的。OpenFlashcards 是基于 MIT 许可的免费开源软件。你可以自行部署，或查看 README 了解托管选项。"
+      },
+      "languages": {
+        "question": "我可以用它来学习语言吗？",
+        "answer": "当然可以！OpenFlashcards非常适合语言学习。通过文字转语音功能练习发音和无限制的套牌，您可以为任何语言创建词汇、语法和短语卡片。"
+      }
+    }
+  },
+  "cta_buttons": {
+    "github": "在 GitHub 上开始",
+    "quickstart": "快速开始"
+  }
+}

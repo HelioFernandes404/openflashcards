@@ -1,0 +1,108 @@
+{
+  "header": {
+    "skipToMain": "メインコンテンツへスキップ",
+    "navItems": {
+      "home": "ホーム",
+      "howItWorks": "仕組み",
+      "features": "差別化機能"
+    },
+    "button": "GitHub",
+    "logo": {
+      "alt": "OpenFlashcards - 間隔反復に対応したセルフホスト型フラッシュカードアプリ",
+      "title": "OpenFlashcards"
+    }
+  },
+  "home": {
+    "section1": {
+      "title": "フラッシュカードで短時間でもっと学ぶ",
+      "paragraph": "間隔を置いた繰り返しとスマート機能を備えたフラッシュカードアプリで、自分のペースで任意の科目を習得できます。",
+      "paragraphHighlight": "無料・オープンソース・セルフホスト。"
+    },
+    "section2": {
+      "badge": "仕組み",
+      "title": "あらゆるコンテンツをアクティブラーニングに変える"
+    },
+    "cards": {
+      "card1": {
+        "title": "学びたいことを選べます",
+        "description": "質問と回答のカード付きデッキを自分で作成します。言語から理科まで、すべてが機能します。"
+      },
+      "card2": {
+        "title": "間隔を置いた繰り返しで学習",
+        "description": "アプリがあなたの難度を識別し、カードを整理して理想的な時間に復習できるようにします。"
+      },
+      "card3": {
+        "title": "あなたの学習日があなたのために準備されています",
+        "description": "毎日、優先デッキがホームページに表示され、何を学習するかのサジェストが提供されます。"
+      },
+      "card4": {
+        "title": "毎日の進捗を追跡",
+        "description": "一貫して学習し、パフォーマンスを追跡します。明確な目的を持って学習の旅を可視化します。"
+      },
+      "progress": {
+        "title": "ニュートンの法則",
+        "progress": "5 / 10 カード"
+      }
+    },
+    "features": {
+      "title": "OpenFlashcardsを使う理由",
+      "badge": "差別化機能",
+      "items": {
+        "textToSpeech": {
+          "title": "テキスト音声変換",
+          "description": "テキスト音声変換機能を使用して、カードテキストの正しい発音を聞きます。言語トレーニングと自然なコンテンツ吸収に最適です。"
+        },
+        "decks": {
+          "title": "好きなだけデッキを作成",
+          "description": "好きなだけデッキとカードを追加します。トピック、科目、言語別に整理し、学習に必要なだけカードを追加します。"
+        },
+        "ai": {
+          "title": "あなたの学習を加速するAI",
+          "description": "アプリはAI機能を備えており、あなたの学習方法を変え、パフォーマンスを分析し、コンテンツをインテリジェントに適応させます。",
+          "badge": "まもなく"
+        }
+      }
+    },
+    "cta": {
+      "badge": "オープンソース",
+      "title": "無料で始める"
+    }
+  },
+  "footer": {
+    "backToTop": "トップに戻る",
+    "copyright": "OpenFlashcards. MITライセンスのオープンソースです。",
+    "social": {
+      "github": "GitHubでソースコードを見る"
+    }
+  },
+  "faq": {
+    "badge": "FAQ",
+    "title": "よくある質問",
+    "items": {
+      "whatIs": {
+        "question": "OpenFlashcardsとは？",
+        "answer": "OpenFlashcardsは、FSRSアルゴリズムを使用した間隔反復で情報をより効果的に学習・記憶するためのフラッシュカードアプリです。学生、専門家、生涯学習者向けに設計されています。"
+      },
+      "spacedRepetition": {
+        "question": "間隔反復とは？",
+        "answer": "間隔反復は、各カードの理解度に基づいて最適な間隔で復習をスケジュールする学習技法です。難しいカードはより頻繁に、よく知っているカードはより少なく表示され、学習効率を最大化します。"
+      },
+      "fsrs": {
+        "question": "FSRSアルゴリズムとは？",
+        "answer": "FSRS（Free Spaced Repetition Scheduler）は、個人の学習パターンに適応する最新の研究ベースのアルゴリズムです。SM-2などの従来のアルゴリズムよりも正確で、よりスマートな学習を支援します。"
+      },
+      "free": {
+        "question": "OpenFlashcardsは無料ですか?",
+        "answer": "はい。OpenFlashcardsはMITライセンスの無料オープンソースソフトウェアです。自分でセルフホストするか、READMEでホスティングオプションをご確認ください。"
+      },
+      "languages": {
+        "question": "言語学習に使えますか？",
+        "answer": "もちろん！OpenFlashcardsは言語学習に最適です。発音練習用のテキスト読み上げ機能と無制限のデッキで、どの言語でも語彙、文法、フレーズカードを作成できます。"
+      }
+    }
+  },
+  "cta_buttons": {
+    "github": "GitHubで始める",
+    "quickstart": "クイックスタート"
+  }
+}
