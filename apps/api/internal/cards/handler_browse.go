@@ -4,6 +4,7 @@ import (
 	"net/http"
 
 	"github.com/HelioFernandes404/openflashcards/apps/api/internal/auth"
+	"github.com/HelioFernandes404/openflashcards/apps/api/internal/shared/pagination"
 	"github.com/gin-gonic/gin"
 )
 
@@ -62,6 +63,7 @@ func (h *Handler) browse(c *gin.Context) {
 	cards, err := h.svc.Browse(c.Request.Context(), uid, BrowseQuery{
 		FilterType:  c.Query("filterType"),
 		FilterValue: c.Query("filterValue"),
+		Page:        pagination.Parse(c.Query("page"), c.Query("pageSize")),
 	})
 	if err != nil {
 		auth.WriteError(c, err)

@@ -112,10 +112,17 @@ func (q *Queries) GetDeckByIDForUpdate(ctx context.Context, id uuid.UUID) (Deck,
 
 const listDecksByUser = `-- name: ListDecksByUser :many
 SELECT id, user_id, name, description, tags, new_cards_daily_limit, created_at, updated_at, module_id FROM decks WHERE user_id = $1 ORDER BY created_at DESC
+LIMIT $3 OFFSET $2
 `
 
-func (q *Queries) ListDecksByUser(ctx context.Context, userID uuid.UUID) ([]Deck, error) {
-	rows, err := q.db.Query(ctx, listDecksByUser, userID)
+type ListDecksByUserParams struct {
+	UserID     uuid.UUID `json:"user_id"`
+	PageOffset int32     `json:"page_offset"`
+	PageLimit  int32     `json:"page_limit"`
+}
+
+func (q *Queries) ListDecksByUser(ctx context.Context, arg ListDecksByUserParams) ([]Deck, error) {
+	rows, err := q.db.Query(ctx, listDecksByUser, arg.UserID, arg.PageOffset, arg.PageLimit)
 	if err != nil {
 		return nil, err
 	}

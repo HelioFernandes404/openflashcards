@@ -8,13 +8,14 @@ import (
 
 	"github.com/HelioFernandes404/openflashcards/apps/api/internal/auth"
 	"github.com/HelioFernandes404/openflashcards/apps/api/internal/shared/apperror"
+	"github.com/HelioFernandes404/openflashcards/apps/api/internal/shared/pagination"
 	"github.com/gin-gonic/gin"
 	"github.com/google/uuid"
 )
 
 type decksServicer interface {
 	Create(ctx context.Context, in CreateInput) (Deck, error)
-	ListByUser(ctx context.Context, userID uuid.UUID) ([]Deck, error)
+	ListByUser(ctx context.Context, userID uuid.UUID, page pagination.Params) ([]Deck, error)
 	GetByID(ctx context.Context, id, userID uuid.UUID) (Deck, error)
 	Update(ctx context.Context, id, userID uuid.UUID, in UpdateInput) (Deck, error)
 	Delete(ctx context.Context, id, userID uuid.UUID) error
@@ -97,7 +98,8 @@ func (h *Handler) create(c *gin.Context) {
 
 func (h *Handler) list(c *gin.Context) {
 	uid, _ := auth.UserIDFrom(c)
-	decks, err := h.svc.ListByUser(c.Request.Context(), uid)
+	page := pagination.Parse(c.Query("page"), c.Query("pageSize"))
+	decks, err := h.svc.ListByUser(c.Request.Context(), uid, page)
 	if err != nil {
 		auth.WriteError(c, err)
 		return

@@ -31,6 +31,7 @@ WHERE d.user_id = $1
     OR (d.tags IS NULL OR cardinality(d.tags) = 0)
   )
 ORDER BY c.created_at DESC
+LIMIT $9 OFFSET $8
 `
 
 type BrowseUserCardsParams struct {
@@ -41,6 +42,8 @@ type BrowseUserCardsParams struct {
 	CreatedAfter *time.Time `json:"created_after"`
 	EditedAfter  *time.Time `json:"edited_after"`
 	UntaggedOnly *bool      `json:"untagged_only"`
+	PageOffset   int32      `json:"page_offset"`
+	PageLimit    int32      `json:"page_limit"`
 }
 
 func (q *Queries) BrowseUserCards(ctx context.Context, arg BrowseUserCardsParams) ([]Card, error) {
@@ -52,6 +55,8 @@ func (q *Queries) BrowseUserCards(ctx context.Context, arg BrowseUserCardsParams
 		arg.CreatedAfter,
 		arg.EditedAfter,
 		arg.UntaggedOnly,
+		arg.PageOffset,
+		arg.PageLimit,
 	)
 	if err != nil {
 		return nil, err

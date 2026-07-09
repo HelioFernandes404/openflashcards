@@ -201,4 +201,5 @@ WHERE d.user_id = sqlc.arg(user_id)
     OR sqlc.narg(untagged_only) = FALSE
     OR (d.tags IS NULL OR cardinality(d.tags) = 0)
   )
-ORDER BY c.created_at DESC;
+ORDER BY c.created_at DESC
+LIMIT sqlc.arg(page_limit) OFFSET sqlc.arg(page_offset);

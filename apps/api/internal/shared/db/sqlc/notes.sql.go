@@ -73,10 +73,17 @@ func (q *Queries) GetNoteByID(ctx context.Context, id uuid.UUID) (Note, error) {
 
 const listNotesByUser = `-- name: ListNotesByUser :many
 SELECT id, user_id, title, content, created_at, updated_at FROM notes WHERE user_id = $1 ORDER BY updated_at DESC
+LIMIT $3 OFFSET $2
 `
 
-func (q *Queries) ListNotesByUser(ctx context.Context, userID uuid.UUID) ([]Note, error) {
-	rows, err := q.db.Query(ctx, listNotesByUser, userID)
+type ListNotesByUserParams struct {
+	UserID     uuid.UUID `json:"user_id"`
+	PageOffset int32     `json:"page_offset"`
+	PageLimit  int32     `json:"page_limit"`
+}
+
+func (q *Queries) ListNotesByUser(ctx context.Context, arg ListNotesByUserParams) ([]Note, error) {
+	rows, err := q.db.Query(ctx, listNotesByUser, arg.UserID, arg.PageOffset, arg.PageLimit)
 	if err != nil {
 		return nil, err
 	}

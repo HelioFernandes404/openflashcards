@@ -11,6 +11,7 @@ import (
 
 	"github.com/HelioFernandes404/openflashcards/apps/api/internal/auth"
 	"github.com/HelioFernandes404/openflashcards/apps/api/internal/shared/apperror"
+	"github.com/HelioFernandes404/openflashcards/apps/api/internal/shared/pagination"
 	"github.com/gin-gonic/gin"
 	"github.com/google/uuid"
 )
@@ -35,7 +36,7 @@ func (f *fakeNoteService) Create(_ context.Context, in CreateInput) (Note, error
 	return n, nil
 }
 
-func (f *fakeNoteService) ListByUser(_ context.Context, userID uuid.UUID) ([]Note, error) {
+func (f *fakeNoteService) ListByUser(_ context.Context, userID uuid.UUID, _ pagination.Params) ([]Note, error) {
 	out := make([]Note, 0)
 	for _, n := range f.notes {
 		if n.UserID == userID {
