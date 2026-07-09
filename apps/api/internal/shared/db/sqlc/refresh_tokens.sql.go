@@ -72,6 +72,29 @@ func (q *Queries) DeleteRefreshToken(ctx context.Context, tokenHash string) erro
 	return err
 }
 
+const deleteRefreshTokenReturning = `-- name: DeleteRefreshTokenReturning :one
+DELETE FROM refresh_tokens WHERE token_hash = $1 RETURNING id, user_id, token_hash, expires_at, created_at, last_used_at, device_info
+`
+
+// Atomically redeems a refresh token: deletes it and returns the deleted
+// row. Callers must treat pgx.ErrNoRows as "already used or never existed"
+// so two concurrent redemptions of the same token can't both succeed (the
+// second DELETE affects zero rows instead of silently no-op'ing).
+func (q *Queries) DeleteRefreshTokenReturning(ctx context.Context, tokenHash string) (RefreshToken, error) {
+	row := q.db.QueryRow(ctx, deleteRefreshTokenReturning, tokenHash)
+	var i RefreshToken
+	err := row.Scan(
+		&i.ID,
+		&i.UserID,
+		&i.TokenHash,
+		&i.ExpiresAt,
+		&i.CreatedAt,
+		&i.LastUsedAt,
+		&i.DeviceInfo,
+	)
+	return i, err
+}
+
 const getRefreshTokenByHash = `-- name: GetRefreshTokenByHash :one
 SELECT id, user_id, token_hash, expires_at, created_at, last_used_at, device_info FROM refresh_tokens WHERE token_hash = $1
 `

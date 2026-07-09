@@ -272,20 +272,18 @@ func (f *fakeAuthRepo) GetUserByID(_ context.Context, id uuid.UUID) (auth.User, 
 func (f *fakeAuthRepo) CreateRefreshToken(_ context.Context, _ auth.CreateRefreshTokenParams) error {
 	return nil
 }
-func (f *fakeAuthRepo) GetRefreshToken(_ context.Context, hash string) (auth.RefreshTokenRecord, error) {
-	rec, ok := f.refreshTokensByHash[hash]
-	if !ok {
-		return auth.RefreshTokenRecord{}, apperror.ErrInvalidToken
-	}
-	return rec, nil
-}
 func (f *fakeAuthRepo) DeleteRefreshToken(_ context.Context, _ string) error { return nil }
 func (f *fakeAuthRepo) DeleteAllRefreshTokensForUser(_ context.Context, userID uuid.UUID) error {
 	f.loggedOutUserIDs = append(f.loggedOutUserIDs, userID)
 	return nil
 }
-func (f *fakeAuthRepo) RotateRefreshToken(_ context.Context, _ string, _ auth.CreateRefreshTokenParams) error {
-	return nil
+func (f *fakeAuthRepo) RedeemRefreshToken(_ context.Context, hash string) (auth.RefreshTokenRecord, error) {
+	rec, ok := f.refreshTokensByHash[hash]
+	if !ok {
+		return auth.RefreshTokenRecord{}, apperror.ErrInvalidToken
+	}
+	delete(f.refreshTokensByHash, hash)
+	return rec, nil
 }
 
 // TestUpdateMePasswordChangeRevokesExistingSessions ensures a password change
