@@ -61,13 +61,13 @@ type Repository interface {
 	GetUserByEmail(ctx context.Context, email string) (User, error)
 	GetUserByID(ctx context.Context, id uuid.UUID) (User, error)
 	CreateRefreshToken(ctx context.Context, p CreateRefreshTokenParams) error
-	GetRefreshToken(ctx context.Context, hash string) (RefreshTokenRecord, error)
 	DeleteRefreshToken(ctx context.Context, hash string) error
 	DeleteAllRefreshTokensForUser(ctx context.Context, userID uuid.UUID) error
-	// RotateRefreshToken atomically deletes oldHash and creates the new
-	// token record, so a mid-rotation failure never leaves the caller
-	// without a valid refresh token.
-	RotateRefreshToken(ctx context.Context, oldHash string, p CreateRefreshTokenParams) error
+	// RedeemRefreshToken atomically deletes the token identified by hash and
+	// returns the row that was deleted. It must return apperror.ErrInvalidToken
+	// when no row was deleted, so concurrent callers redeeming the same hash
+	// can't both succeed — only the first delete affects a row.
+	RedeemRefreshToken(ctx context.Context, hash string) (RefreshTokenRecord, error)
 }
 
 type Service struct {

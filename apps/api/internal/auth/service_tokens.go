@@ -10,12 +10,16 @@ import (
 
 func (s *Service) Refresh(ctx context.Context, refreshToken string) (TokenPair, error) {
 	hash := HashRefreshToken(refreshToken)
-	rec, err := s.repo.GetRefreshToken(ctx, hash)
+	// RedeemRefreshToken deletes the token as it reads it (a single atomic
+	// DELETE...RETURNING), so a refresh token can only ever be consumed
+	// once even under concurrent requests: the loser of the race sees zero
+	// rows deleted and gets ErrInvalidToken instead of silently no-op'ing,
+	// which previously let the same token mint two valid token pairs.
+	rec, err := s.repo.RedeemRefreshToken(ctx, hash)
 	if err != nil {
 		return TokenPair{}, apperror.ErrInvalidToken
 	}
 	if time.Now().UTC().After(rec.ExpiresAt) {
-		_ = s.repo.DeleteRefreshToken(ctx, hash)
 		return TokenPair{}, apperror.ErrInvalidToken
 	}
 	u, err := s.repo.GetUserByID(ctx, rec.UserID)
@@ -26,7 +30,7 @@ func (s *Service) Refresh(ctx context.Context, refreshToken string) (TokenPair, 
 	if err != nil {
 		return TokenPair{}, err
 	}
-	if err := s.repo.RotateRefreshToken(ctx, hash, CreateRefreshTokenParams{
+	if err := s.repo.CreateRefreshToken(ctx, CreateRefreshTokenParams{
 		UserID:    u.ID,
 		TokenHash: refreshHash,
 		ExpiresAt: time.Now().UTC().AddDate(0, 0, s.refreshTTLDays),

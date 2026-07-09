@@ -71,8 +71,19 @@ func (r *pgRepository) CreateRefreshToken(ctx context.Context, p CreateRefreshTo
 	return err
 }
 
-func (r *pgRepository) GetRefreshToken(ctx context.Context, hash string) (RefreshTokenRecord, error) {
-	row, err := r.q.GetRefreshTokenByHash(ctx, hash)
+func (r *pgRepository) DeleteRefreshToken(ctx context.Context, hash string) error {
+	return r.q.DeleteRefreshToken(ctx, hash)
+}
+
+// RedeemRefreshToken atomically deletes the refresh token identified by hash
+// and returns the row that was deleted. The DELETE...RETURNING is a single
+// statement, so it is atomic at the row level: if two requests race to
+// redeem the same hash, only one of them gets a row back — the other sees
+// pgx.ErrNoRows (mapped to apperror.ErrInvalidToken) because the row is
+// already gone. This closes the read-then-delete race that let a single
+// refresh token be used concurrently to mint two valid token pairs.
+func (r *pgRepository) RedeemRefreshToken(ctx context.Context, hash string) (RefreshTokenRecord, error) {
+	row, err := r.q.DeleteRefreshTokenReturning(ctx, hash)
 	if err != nil {
 		if errors.Is(err, pgx.ErrNoRows) {
 			return RefreshTokenRecord{}, apperror.ErrInvalidToken
@@ -84,32 +95,6 @@ func (r *pgRepository) GetRefreshToken(ctx context.Context, hash string) (Refres
 		TokenHash: row.TokenHash,
 		ExpiresAt: row.ExpiresAt,
 	}, nil
-}
-
-func (r *pgRepository) DeleteRefreshToken(ctx context.Context, hash string) error {
-	return r.q.DeleteRefreshToken(ctx, hash)
-}
-
-func (r *pgRepository) RotateRefreshToken(ctx context.Context, oldHash string, p CreateRefreshTokenParams) error {
-	tx, err := r.pool.Begin(ctx)
-	if err != nil {
-		return err
-	}
-	defer tx.Rollback(ctx)
-
-	qtx := r.q.WithTx(tx)
-	if err := qtx.DeleteRefreshToken(ctx, oldHash); err != nil {
-		return err
-	}
-	if _, err := qtx.CreateRefreshToken(ctx, db.CreateRefreshTokenParams{
-		UserID:     p.UserID,
-		TokenHash:  p.TokenHash,
-		ExpiresAt:  p.ExpiresAt,
-		DeviceInfo: p.DeviceInfo,
-	}); err != nil {
-		return err
-	}
-	return tx.Commit(ctx)
 }
 
 func (r *pgRepository) DeleteAllRefreshTokensForUser(ctx context.Context, userID uuid.UUID) error {

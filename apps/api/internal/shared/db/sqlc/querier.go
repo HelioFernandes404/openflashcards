@@ -59,6 +59,11 @@ type Querier interface {
 	DeleteNote(ctx context.Context, arg DeleteNoteParams) error
 	DeletePromptTemplate(ctx context.Context, arg DeletePromptTemplateParams) error
 	DeleteRefreshToken(ctx context.Context, tokenHash string) error
+	// Atomically redeems a refresh token: deletes it and returns the deleted
+	// row. Callers must treat pgx.ErrNoRows as "already used or never existed"
+	// so two concurrent redemptions of the same token can't both succeed (the
+	// second DELETE affects zero rows instead of silently no-op'ing).
+	DeleteRefreshTokenReturning(ctx context.Context, tokenHash string) (RefreshToken, error)
 	DeleteStudyPlan(ctx context.Context, arg DeleteStudyPlanParams) error
 	GetCardByID(ctx context.Context, id uuid.UUID) (Card, error)
 	GetDeckByID(ctx context.Context, id uuid.UUID) (Deck, error)

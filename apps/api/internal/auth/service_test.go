@@ -3,6 +3,7 @@ package auth
 import (
 	"context"
 	"errors"
+	"sync"
 	"testing"
 	"time"
 
@@ -11,6 +12,7 @@ import (
 )
 
 type fakeRepo struct {
+	mu     sync.Mutex
 	users  map[string]User
 	tokens map[string]RefreshTokenRecord
 }
@@ -56,21 +58,20 @@ func (f *fakeRepo) GetUserByID(_ context.Context, id uuid.UUID) (User, error) {
 	return User{}, apperror.ErrUserNotFound
 }
 func (f *fakeRepo) CreateRefreshToken(_ context.Context, p CreateRefreshTokenParams) error {
+	f.mu.Lock()
+	defer f.mu.Unlock()
 	f.tokens[p.TokenHash] = RefreshTokenRecord{UserID: p.UserID, TokenHash: p.TokenHash, ExpiresAt: p.ExpiresAt}
 	return nil
 }
-func (f *fakeRepo) GetRefreshToken(_ context.Context, hash string) (RefreshTokenRecord, error) {
-	rec, ok := f.tokens[hash]
-	if !ok {
-		return RefreshTokenRecord{}, apperror.ErrInvalidToken
-	}
-	return rec, nil
-}
 func (f *fakeRepo) DeleteRefreshToken(_ context.Context, hash string) error {
+	f.mu.Lock()
+	defer f.mu.Unlock()
 	delete(f.tokens, hash)
 	return nil
 }
 func (f *fakeRepo) DeleteAllRefreshTokensForUser(_ context.Context, userID uuid.UUID) error {
+	f.mu.Lock()
+	defer f.mu.Unlock()
 	for k, v := range f.tokens {
 		if v.UserID == userID {
 			delete(f.tokens, k)
@@ -78,23 +79,34 @@ func (f *fakeRepo) DeleteAllRefreshTokensForUser(_ context.Context, userID uuid.
 	}
 	return nil
 }
-func (f *fakeRepo) RotateRefreshToken(_ context.Context, oldHash string, p CreateRefreshTokenParams) error {
-	if _, ok := f.tokens[oldHash]; !ok {
-		return apperror.ErrInvalidToken
+
+// RedeemRefreshToken mirrors the real repository's atomic DELETE...RETURNING:
+// it deletes the row and returns it, holding the lock across the
+// check-and-delete so two concurrent callers can't both see the row. A hash
+// that's already gone (redeemed by a concurrent call, or unknown) reports
+// apperror.ErrInvalidToken.
+func (f *fakeRepo) RedeemRefreshToken(_ context.Context, hash string) (RefreshTokenRecord, error) {
+	f.mu.Lock()
+	defer f.mu.Unlock()
+	rec, ok := f.tokens[hash]
+	if !ok {
+		return RefreshTokenRecord{}, apperror.ErrInvalidToken
 	}
-	delete(f.tokens, oldHash)
-	f.tokens[p.TokenHash] = RefreshTokenRecord{UserID: p.UserID, TokenHash: p.TokenHash, ExpiresAt: p.ExpiresAt}
-	return nil
+	delete(f.tokens, hash)
+	return rec, nil
 }
 
-// failingRotateRepo simulates a rotation that fails atomically (e.g. a
-// transaction rollback): the old token must remain untouched.
-type failingRotateRepo struct {
+// failingCreateRepo simulates the new refresh token's insert failing after
+// the old one has already been redeemed (deleted). This is a deliberate
+// safe-failure trade-off: the old token stays consumed (single-use, no
+// race window) even though the caller ends up with no valid session and
+// must log in again.
+type failingCreateRepo struct {
 	*fakeRepo
 }
 
-func (f *failingRotateRepo) RotateRefreshToken(_ context.Context, _ string, _ CreateRefreshTokenParams) error {
-	return errors.New("rotate failed")
+func (f *failingCreateRepo) CreateRefreshToken(_ context.Context, _ CreateRefreshTokenParams) error {
+	return errors.New("create failed")
 }
 
 func newTestService() *Service {
@@ -224,13 +236,65 @@ func TestRefreshPropagatesRotationError(t *testing.T) {
 		t.Fatalf("Login: %v", err)
 	}
 
-	svc.repo = &failingRotateRepo{fakeRepo: base}
+	svc.repo = &failingCreateRepo{fakeRepo: base}
 	_, err = svc.Refresh(context.Background(), first.RefreshToken)
 	if err == nil {
-		t.Fatal("expected Refresh to fail when rotation cannot be persisted, got nil error")
+		t.Fatal("expected Refresh to fail when the new token cannot be persisted, got nil error")
 	}
-	if _, ok := base.tokens[HashRefreshToken(first.RefreshToken)]; !ok {
-		t.Error("expected old refresh token to remain valid after a failed atomic rotation, but it was deleted")
+	// The old token was already redeemed (deleted) by the atomic
+	// DELETE...RETURNING before the failed insert. That's intentional: the
+	// old refresh token must never remain usable after being presented once,
+	// even if minting its replacement fails — the caller just has to log in
+	// again instead of the request race being reopened.
+	if _, ok := base.tokens[HashRefreshToken(first.RefreshToken)]; ok {
+		t.Error("expected old refresh token to be consumed even though persisting the new one failed")
+	}
+}
+
+// TestRefreshConcurrentSameTokenOnlyOneSucceeds proves the fix for the race:
+// two goroutines redeeming the same refresh token concurrently must not both
+// succeed, closing the window that used to let one token mint two valid
+// pairs.
+func TestRefreshConcurrentSameTokenOnlyOneSucceeds(t *testing.T) {
+	svc := newTestService()
+	_, _, _ = svc.Register(context.Background(), RegisterInput{
+		Email: "a@b.com", Nickname: "ab", Password: "supersecretpass",
+	}, "")
+	tok, err := svc.Login(context.Background(), "a@b.com", "supersecretpass", "")
+	if err != nil {
+		t.Fatalf("Login: %v", err)
+	}
+
+	repo := svc.repo.(*fakeRepo)
+	repo.mu.Lock()
+	hash := HashRefreshToken(tok.RefreshToken)
+	_, ok := repo.tokens[hash]
+	repo.mu.Unlock()
+	if !ok {
+		t.Fatalf("expected token %q to exist before the race", hash)
+	}
+
+	const n = 20
+	results := make(chan error, n)
+	var start sync.WaitGroup
+	start.Add(1)
+	for i := 0; i < n; i++ {
+		go func() {
+			start.Wait()
+			_, err := svc.Refresh(context.Background(), tok.RefreshToken)
+			results <- err
+		}()
+	}
+	start.Done()
+
+	successes := 0
+	for i := 0; i < n; i++ {
+		if err := <-results; err == nil {
+			successes++
+		}
+	}
+	if successes != 1 {
+		t.Errorf("expected exactly 1 of %d concurrent redemptions of the same token to succeed, got %d", n, successes)
 	}
 }
 
