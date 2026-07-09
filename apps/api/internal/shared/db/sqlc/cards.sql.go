@@ -137,7 +137,7 @@ JOIN cards c ON c.id = r.card_id
 WHERE c.deck_id = $1
   AND r.user_id = $2
   AND r.review_datetime >= $3
-  AND r.elapsed_days = 0
+  AND r.was_new
 `
 
 type CountNewCardsStudiedTodayParams struct {
@@ -343,10 +343,10 @@ func (q *Queries) CreateCard(ctx context.Context, arg CreateCardParams) (Card, e
 const createReview = `-- name: CreateReview :one
 INSERT INTO reviews (
     card_id, user_id, rating, state, scheduled_days, elapsed_days,
-    review_datetime, review_duration_ms, stability, difficulty
+    review_datetime, review_duration_ms, stability, difficulty, was_new
 )
-VALUES ($1, $2, $3, $4, $5, $6, $7, $8, $9, $10)
-RETURNING id, card_id, user_id, rating, state, scheduled_days, elapsed_days, review_datetime, review_duration_ms, stability, difficulty
+VALUES ($1, $2, $3, $4, $5, $6, $7, $8, $9, $10, $11)
+RETURNING id, card_id, user_id, rating, state, scheduled_days, elapsed_days, review_datetime, review_duration_ms, stability, difficulty, was_new
 `
 
 type CreateReviewParams struct {
@@ -360,6 +360,7 @@ type CreateReviewParams struct {
 	ReviewDurationMs *int32    `json:"review_duration_ms"`
 	Stability        float64   `json:"stability"`
 	Difficulty       float64   `json:"difficulty"`
+	WasNew           bool      `json:"was_new"`
 }
 
 func (q *Queries) CreateReview(ctx context.Context, arg CreateReviewParams) (Review, error) {
@@ -374,6 +375,7 @@ func (q *Queries) CreateReview(ctx context.Context, arg CreateReviewParams) (Rev
 		arg.ReviewDurationMs,
 		arg.Stability,
 		arg.Difficulty,
+		arg.WasNew,
 	)
 	var i Review
 	err := row.Scan(
@@ -388,6 +390,7 @@ func (q *Queries) CreateReview(ctx context.Context, arg CreateReviewParams) (Rev
 		&i.ReviewDurationMs,
 		&i.Stability,
 		&i.Difficulty,
+		&i.WasNew,
 	)
 	return i, err
 }
@@ -409,7 +412,7 @@ LEFT JOIN (
     JOIN cards c2 ON c2.id = r.card_id
     WHERE r.user_id = $1
       AND r.review_datetime >= $3
-      AND r.elapsed_days = 0
+      AND r.was_new
     GROUP BY c2.deck_id
 ) st ON st.deck_id = d.id
 WHERE d.user_id = $1

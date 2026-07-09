@@ -60,7 +60,7 @@ JOIN cards c ON c.id = r.card_id
 WHERE c.deck_id = $1
   AND r.user_id = $2
   AND r.review_datetime >= $3
-  AND r.elapsed_days = 0;
+  AND r.was_new;
 
 -- name: DeckStatsByUser :many
 SELECT
@@ -79,7 +79,7 @@ LEFT JOIN (
     JOIN cards c2 ON c2.id = r.card_id
     WHERE r.user_id = $1
       AND r.review_datetime >= sqlc.arg('start_of_day')
-      AND r.elapsed_days = 0
+      AND r.was_new
     GROUP BY c2.deck_id
 ) st ON st.deck_id = d.id
 WHERE d.user_id = $1
@@ -136,9 +136,9 @@ ORDER BY card_id, review_datetime ASC;
 -- name: CreateReview :one
 INSERT INTO reviews (
     card_id, user_id, rating, state, scheduled_days, elapsed_days,
-    review_datetime, review_duration_ms, stability, difficulty
+    review_datetime, review_duration_ms, stability, difficulty, was_new
 )
-VALUES ($1, $2, $3, $4, $5, $6, $7, $8, $9, $10)
+VALUES ($1, $2, $3, $4, $5, $6, $7, $8, $9, $10, $11)
 RETURNING *;
 
 -- name: CountUserCards :one

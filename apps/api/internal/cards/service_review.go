@@ -151,6 +151,11 @@ func (s *Service) SubmitReview(ctx context.Context, in ReviewInput) (ReviewOutpu
 		ReviewDurationMs: in.ReviewDurationMs,
 		Stability:        updated.Stability,
 		Difficulty:       updated.Difficulty,
+		// WasNew records the card's state *before* this review, so the
+		// daily new-cards quota can be counted accurately instead of
+		// inferring "new" from elapsed_days = 0 (which also matches
+		// same-day learning/relearning steps).
+		WasNew: card.State == "new",
 	}); err != nil {
 		return ReviewOutput{}, err
 	}
