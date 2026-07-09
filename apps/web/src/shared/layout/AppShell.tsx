@@ -148,7 +148,7 @@ export function AppShell() {
           </div>
           <div className="min-w-0">
             <p className="font-display font-semibold text-on-surface truncate">
-              Study Decker
+              OpenFlashcards
             </p>
             <p className="text-xs text-on-surface-variant truncate">
               Spaced Repetition System
@@ -178,11 +178,11 @@ export function AppShell() {
 
         <div className="p-3 space-y-2">
           <p className="px-3 text-[11px] leading-snug text-on-surface-variant">
-            Selecione um texto e pressione{' '}
+            Select any text and press{' '}
             <kbd className="rounded border border-outline bg-surface-container px-1 py-0.5 font-mono text-[10px]">
               Alt+S
             </kbd>{' '}
-            para ouvir (ou Alt+Shift+S se o atalho conflitar).
+            to hear it (or Alt+Shift+S if the shortcut conflicts).
           </p>
           <Button className="w-full gap-2" asChild>
             <Link to="/decks/create">

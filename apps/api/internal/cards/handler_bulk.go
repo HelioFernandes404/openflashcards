@@ -12,7 +12,7 @@ import (
 type cardExportItem struct {
 	Front    string `json:"front"`
 	Back     string `json:"back"`
-	Fonetica string `json:"fonetica,omitempty"`
+	Phonetic string `json:"phonetic,omitempty"`
 }
 
 func (h *Handler) exportDeck(c *gin.Context) {
@@ -32,8 +32,8 @@ func (h *Handler) exportDeck(c *gin.Context) {
 		item := cardExportItem{
 			Front: card.Front, Back: card.Back,
 		}
-		if card.Fonetica != nil {
-			item.Fonetica = *card.Fonetica
+		if card.Phonetic != nil {
+			item.Phonetic = *card.Phonetic
 		}
 		out = append(out, item)
 	}
@@ -43,7 +43,7 @@ func (h *Handler) exportDeck(c *gin.Context) {
 type bulkItem struct {
 	Front      string  `json:"front" binding:"required,min=1,max=5000"`
 	Back       string  `json:"back" binding:"required,min=1,max=5000"`
-	Fonetica   *string `json:"fonetica"`
+	Phonetic   *string `json:"phonetic"`
 	TTSEnabled *bool   `json:"ttsEnabled"`
 }
 
@@ -86,7 +86,7 @@ func (h *Handler) bulkCreate(c *gin.Context) {
 	for _, item := range req.Cards {
 		items = append(items, BulkItemInput{
 			Front: item.Front, Back: item.Back,
-			Fonetica: item.Fonetica, TTSEnabled: item.TTSEnabled,
+			Phonetic: item.Phonetic, TTSEnabled: item.TTSEnabled,
 		})
 	}
 	var opts BulkOptions

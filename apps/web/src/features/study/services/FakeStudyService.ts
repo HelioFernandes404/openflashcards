@@ -444,7 +444,7 @@ export class FakeStudyService implements IStudyService {
       deckId: data.deckId,
       front: data.front,
       back: data.back,
-      fonetica: data.phonetic,
+      phonetic: data.phonetic,
       imagemUrl: data.imagemUrl,
       stability: 0,
       difficulty: 0,
@@ -467,7 +467,7 @@ export class FakeStudyService implements IStudyService {
       ...this.cards[index],
       front: data.front ?? this.cards[index].front,
       back: data.back ?? this.cards[index].back,
-      fonetica: data.phonetic ?? this.cards[index].phonetic,
+      phonetic: data.phonetic ?? this.cards[index].phonetic,
       imagemUrl: data.imagemUrl ?? this.cards[index].imagemUrl,
       ttsEnabled: data.ttsEnabled ?? this.cards[index].ttsEnabled,
       updatedAt: new Date().toISOString(),
@@ -497,7 +497,7 @@ export class FakeStudyService implements IStudyService {
         deckId: request.deckId,
         front: item.front,
         back: item.back,
-        fonetica: item.phonetic,
+        phonetic: item.phonetic,
       })
       created += 1
     }
@@ -510,7 +510,7 @@ export class FakeStudyService implements IStudyService {
       .map((card) => ({
         front: card.front,
         back: card.back,
-        fonetica: card.phonetic,
+        phonetic: card.phonetic,
       }))
   }
 
@@ -539,7 +539,7 @@ export class FakeStudyService implements IStudyService {
       deckId: card.deckId,
       front: card.front,
       back: card.back,
-      fonetica: card.phonetic,
+      phonetic: card.phonetic,
       imagemUrl: card.imagemUrl,
       stability: card.stability,
       difficulty: card.difficulty,

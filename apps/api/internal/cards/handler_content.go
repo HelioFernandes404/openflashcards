@@ -54,7 +54,7 @@ type cardBackResp struct {
 	DeckID     string  `json:"deckId"`
 	Front      string  `json:"front"`
 	AudioURL   string  `json:"audioUrl,omitempty"`
-	Fonetica   string  `json:"fonetica,omitempty"`
+	Phonetic   string  `json:"phonetic,omitempty"`
 	Back       string  `json:"back"`
 	ImagemURL  string  `json:"imagemUrl,omitempty"`
 	TTSAudio   string  `json:"ttsAudio,omitempty"`
@@ -89,8 +89,8 @@ func (h *Handler) getBack(c *gin.Context) {
 	if card.AudioURL != nil {
 		resp.AudioURL = *card.AudioURL
 	}
-	if card.Fonetica != nil {
-		resp.Fonetica = *card.Fonetica
+	if card.Phonetic != nil {
+		resp.Phonetic = *card.Phonetic
 	}
 	if card.ImagemURL != nil {
 		resp.ImagemURL = *card.ImagemURL

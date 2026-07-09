@@ -38,7 +38,7 @@ export function CardPreviewModal({
     () => ({
       front: frontText,
       back: backText,
-      fonetica: card.phonetic ?? '',
+      phonetic: card.phonetic ?? '',
       imagemUrl,
     }),
     [card.phonetic, frontText, backText, imagemUrl],

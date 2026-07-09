@@ -7,7 +7,7 @@ interface CardItemProps {
   id: string
   front: string
   back: string
-  fonetica?: string
+  phonetic?: string
   imagemUrl?: string
   onEdit?: (id: string) => void
   onDelete?: (id: string) => void
@@ -17,7 +17,7 @@ export function CardItem({
   id,
   front,
   back,
-  fonetica,
+  phonetic,
   imagemUrl,
   onEdit,
   onDelete,
@@ -52,13 +52,13 @@ export function CardItem({
 
             {showAnswer ? (
               <div className="flex flex-col gap-2 bg-surface-container-low p-2 rounded-md border border-outline">
-                {fonetica && (
+                {phonetic && (
                   <div className="flex items-start gap-2">
                     <span className="text-xs font-bold uppercase opacity-40 shrink-0">
                       Pron:
                     </span>
                     <p className="text-sm font-mono text-on-surface">
-                      {fonetica}
+                      {phonetic}
                     </p>
                   </div>
                 )}

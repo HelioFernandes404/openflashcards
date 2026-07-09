@@ -39,7 +39,7 @@ export function LoginPage() {
     <AuthCard
       pageTestId="login-page"
       title="Welcome Back"
-      subtitle="Sign in to your Study Decker account"
+      subtitle="Sign in to your OpenFlashcards account"
       error={error}
       errorTestId="login-error-alert"
       footer={

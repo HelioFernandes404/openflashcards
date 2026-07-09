@@ -6,7 +6,7 @@ afterEach(() => {
   vi.unstubAllGlobals()
 
   if (typeof window !== 'undefined') {
-    delete window.__COGCS_CONFIG__
+    delete window.__OPENFLASHCARDS_CONFIG__
   }
 })
 
@@ -57,7 +57,7 @@ describe('resolveApiConfig', () => {
   })
 
   it('uses numeric runtime config values when available', () => {
-    window.__COGCS_CONFIG__ = {
+    window.__OPENFLASHCARDS_CONFIG__ = {
       apiUrl: 'https://runtime.example.com/api/v1',
       apiTimeout: '2500',
       apiRetryAttempts: '5',
@@ -85,7 +85,7 @@ describe('resolveApiConfig', () => {
 
 describe('readRuntimeConfig', () => {
   it('reads runtime config safely from window', () => {
-    window.__COGCS_CONFIG__ = {
+    window.__OPENFLASHCARDS_CONFIG__ = {
       apiUrl: 'https://runtime.example.com/api/v1',
     }
 

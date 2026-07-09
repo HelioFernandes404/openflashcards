@@ -152,7 +152,7 @@ export function useDeckCardsImport(): UseDeckCardsImportReturn {
         const cards: BulkCardItem[] = rowsToImport.map((row: ParsedCsvRow) => ({
           front: row.front,
           back: row.back,
-          fonetica: row.phonetic || undefined,
+          phonetic: row.phonetic || undefined,
           ttsEnabled: true,
         }))
 

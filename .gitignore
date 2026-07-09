@@ -19,6 +19,9 @@ bin/
 *.out
 *.test
 
+# Rust
+target/
+
 # IDE
 .vscode/
 .idea/

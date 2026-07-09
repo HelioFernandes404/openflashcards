@@ -16,7 +16,7 @@ import (
 type BulkItemInput struct {
 	Front      string
 	Back       string
-	Fonetica   *string
+	Phonetic   *string
 	TTSEnabled *bool
 }
 
@@ -95,7 +95,7 @@ func bulkCreateCards(ctx context.Context, q bulkQuerier, scheduler *fsrs.Schedul
 		js := string(cardJSON)
 		if _, err := q.CreateCard(ctx, db.CreateCardParams{
 			DeckID: in.DeckID, Front: front, Back: back,
-			Fonetica: item.Fonetica, TtsEnabled: ttsEnabled,
+			Fonetica: item.Phonetic, TtsEnabled: ttsEnabled,
 			State: "new", Stability: newCard.Stability, Difficulty: newCard.Difficulty,
 			Due: newCard.Due, FsrsCardJson: &js,
 		}); err != nil {

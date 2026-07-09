@@ -11,7 +11,7 @@ function loadRuntimeConfig(): Promise<void> {
     return Promise.resolve()
   }
 
-  if (typeof window !== 'undefined' && window.__OPENFLASKCARDS_CONFIG__) {
+  if (typeof window !== 'undefined' && window.__OPENFLASHCARDS_CONFIG__) {
     return Promise.resolve()
   }
 

@@ -10,7 +10,7 @@ export interface Card {
   // Active Recall fields
   audioUrl?: string // Pronunciation audio URL
   imagemUrl?: string // Context image URL
-  fonetica?: string // Brazilian-readable phonetics (NOT IPA)
+  phonetic?: string // Brazilian-readable phonetics (NOT IPA)
 
   // FSRS fields
   stability: number
@@ -31,7 +31,7 @@ export interface Card {
 }
 
 // Card Front Response (Challenge - no spoilers)
-// Shows front and imagemUrl; NEVER includes fonetica, back, ttsAudio
+// Shows front and imagemUrl; NEVER includes phonetic, back, ttsAudio
 export interface CardFront {
   id: string
   deckId: string
@@ -62,7 +62,7 @@ export interface CardBack {
   deckId: string
   front: string
   audioUrl?: string
-  fonetica?: string
+  phonetic?: string
   back: string
   imagemUrl?: string
   ttsAudio?: string
@@ -82,7 +82,7 @@ export interface CardCreateInput {
   back: string
   audioUrl?: string
   imagemUrl?: string
-  fonetica?: string
+  phonetic?: string
   ttsEnabled?: boolean
 }
 
@@ -92,7 +92,7 @@ export interface CardUpdateInput {
   back?: string
   audioUrl?: string
   imagemUrl?: string
-  fonetica?: string
+  phonetic?: string
   ttsEnabled?: boolean
 }
 

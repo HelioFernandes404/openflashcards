@@ -48,7 +48,7 @@ export function useSelectionSpeech() {
     const text = resolveSelectedText()
     if (!text) {
       showToast(
-        'Selecione um texto para ouvir. Atalho: Alt+S (ou Alt+Shift+S).',
+        'Select text to hear it. Shortcut: Alt+S (or Alt+Shift+S).',
         'error',
       )
       return

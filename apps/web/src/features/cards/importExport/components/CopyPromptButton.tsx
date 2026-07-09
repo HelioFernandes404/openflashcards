@@ -19,7 +19,8 @@ export function CopyPromptButton({
   const [showModal, setShowModal] = useState(false)
   const [showForm, setShowForm] = useState(false)
   const [tema, setTema] = useState('')
-  const [phoneticType, setPhoneticType] = useState<PhoneticType>('brasileirada')
+  const [phoneticType, setPhoneticType] =
+    useState<PhoneticType>('brazilianslang')
 
   const generatedPrompt = buildSheetsPrompt(
     tema || '[INFORME O TEMA]',

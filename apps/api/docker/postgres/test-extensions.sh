@@ -1,24 +1,24 @@
 #!/bin/bash
-# Script para testar se as extensões PostgreSQL foram instaladas corretamente
+# Script to test whether the PostgreSQL extensions were installed correctly
 
 set -e
 
-echo "🔍 Testando extensões PostgreSQL para postgres-mcp..."
+echo "🔍 Testing PostgreSQL extensions for postgres-mcp..."
 echo ""
 
-# Aguardar PostgreSQL estar pronto
-echo "⏳ Aguardando PostgreSQL iniciar..."
+# Wait for PostgreSQL to be ready
+echo "⏳ Waiting for PostgreSQL to start..."
 sleep 5
 
-# Testar conexão e listar extensões instaladas
-docker exec cogcs-postgres psql -U cogcs -d cogcs -c "
+# Test connection and list installed extensions
+docker exec openflaskcards-db psql -U openflaskcards -d openflaskcards -c "
 SELECT
     extname as \"Extension\",
     extversion as \"Version\",
     CASE
-        WHEN extname = 'pg_stat_statements' THEN '✓ Rastreamento de queries ativo'
-        WHEN extname = 'hypopg' THEN '✓ Índices hipotéticos disponíveis'
-        ELSE 'Instalada'
+        WHEN extname = 'pg_stat_statements' THEN '✓ Query tracking active'
+        WHEN extname = 'hypopg' THEN '✓ Hypothetical indexes available'
+        ELSE 'Installed'
     END as \"Status\"
 FROM pg_extension
 WHERE extname IN ('pg_stat_statements', 'hypopg', 'plpgsql')
@@ -26,8 +26,8 @@ ORDER BY extname;
 "
 
 echo ""
-echo "📊 Verificando pg_stat_statements..."
-docker exec cogcs-postgres psql -U cogcs -d cogcs -c "
+echo "📊 Checking pg_stat_statements..."
+docker exec openflaskcards-db psql -U openflaskcards -d openflaskcards -c "
 SELECT
     count(*) as total_queries_tracked,
     count(DISTINCT userid) as total_users,
@@ -36,16 +36,16 @@ FROM pg_stat_statements;
 "
 
 echo ""
-echo "⚙️  Configurações pg_stat_statements:"
-docker exec cogcs-postgres psql -U cogcs -d cogcs -c "
+echo "⚙️  pg_stat_statements configuration:"
+docker exec openflaskcards-db psql -U openflaskcards -d openflaskcards -c "
 SHOW shared_preload_libraries;
 SHOW pg_stat_statements.track;
 "
 
 echo ""
-echo "✅ Teste concluído!"
+echo "✅ Test complete!"
 echo ""
-echo "📝 Notas:"
-echo "  - pg_stat_statements: Deve estar instalada e ativa"
-echo "  - hypopg: Opcional, não disponível no postgres:17-alpine por padrão"
-echo "  - O postgres-mcp funciona perfeitamente apenas com pg_stat_statements"
+echo "📝 Notes:"
+echo "  - pg_stat_statements: should be installed and active"
+echo "  - hypopg: optional, not available in postgres:17-alpine by default"
+echo "  - postgres-mcp works fine with just pg_stat_statements"

@@ -14,7 +14,7 @@ type Card struct {
 	Back         string
 	AudioURL     *string
 	ImagemURL    *string
-	Fonetica     *string
+	Phonetic     *string
 	TTSEnabled   bool
 	State        string
 	Stability    float64
@@ -37,7 +37,7 @@ func mapCard(row db.Card) Card {
 		Back:         row.Back,
 		AudioURL:     row.AudioUrl,
 		ImagemURL:    row.ImagemUrl,
-		Fonetica:     row.Fonetica,
+		Phonetic:     row.Fonetica,
 		TTSEnabled:   row.TtsEnabled,
 		State:        row.State,
 		Stability:    row.Stability,

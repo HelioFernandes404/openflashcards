@@ -80,7 +80,7 @@ type cardResp struct {
 	Back       string  `json:"back"`
 	AudioURL   string  `json:"audioUrl,omitempty"`
 	ImagemURL  string  `json:"imagemUrl,omitempty"`
-	Fonetica   string  `json:"fonetica,omitempty"`
+	Phonetic   string  `json:"phonetic,omitempty"`
 	TTSEnabled bool    `json:"ttsEnabled"`
 	State      string  `json:"state"`
 	Stability  float64 `json:"stability"`
@@ -152,8 +152,8 @@ func toResp(card Card) cardResp {
 		img = *card.ImagemURL
 	}
 	fon := ""
-	if card.Fonetica != nil {
-		fon = *card.Fonetica
+	if card.Phonetic != nil {
+		fon = *card.Phonetic
 	}
 	last := ""
 	if card.LastReview != nil {
@@ -162,7 +162,7 @@ func toResp(card Card) cardResp {
 	return cardResp{
 		ID: card.ID.String(), DeckID: card.DeckID.String(),
 		Front: card.Front, Back: card.Back,
-		AudioURL: audio, ImagemURL: img, Fonetica: fon,
+		AudioURL: audio, ImagemURL: img, Phonetic: fon,
 		TTSEnabled: card.TTSEnabled,
 		State:      card.State, Stability: card.Stability, Difficulty: card.Difficulty,
 		Due: card.Due.Format(time.RFC3339), LastReview: last,

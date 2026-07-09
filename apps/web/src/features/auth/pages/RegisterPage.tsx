@@ -41,7 +41,7 @@ export function RegisterPage() {
     <AuthCard
       pageTestId="register-page"
       title="Create Account"
-      subtitle="Join Study Decker today"
+      subtitle="Join OpenFlashcards today"
       error={error}
       errorTestId="register-error-alert"
       footer={

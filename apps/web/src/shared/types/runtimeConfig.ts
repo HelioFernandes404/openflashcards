@@ -14,6 +14,6 @@ export interface ResolvedRuntimeConfig {
 
 declare global {
   interface Window {
-    __COGCS_CONFIG__?: RuntimeConfig
+    __OPENFLASHCARDS_CONFIG__?: RuntimeConfig
   }
 }

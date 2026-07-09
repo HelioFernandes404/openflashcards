@@ -52,7 +52,7 @@ export function EditCardModal({
 }: EditCardModalProps) {
   const [front, setFront] = useState('')
   const [back, setBack] = useState('')
-  const [fonetica, setFonetica] = useState('')
+  const [phonetic, setPhonetic] = useState('')
   const [imagemUrl, setImagemUrl] = useState<string | undefined>(undefined)
   const draftRef = useRef<CardEditDraft>({
     front: '',
@@ -90,7 +90,7 @@ export function EditCardModal({
       // eslint-disable-next-line react-hooks/set-state-in-effect
       setFront(draft.front)
       setBack(draft.back)
-      setFonetica(draft.phonetic)
+      setPhonetic(draft.phonetic)
       setImagemUrl(draft.imagemUrl)
     }
   }, [isOpen, card])
@@ -104,7 +104,7 @@ export function EditCardModal({
     await onSave(card.id, {
       front: front.trim(),
       back: back.trim(),
-      fonetica: fonetica.trim() || undefined,
+      phonetic: phonetic.trim() || undefined,
       imagemUrl,
     })
     onClose()
@@ -149,20 +149,20 @@ export function EditCardModal({
 
         <div>
           <Label
-            htmlFor="edit-fonetica"
+            htmlFor="edit-phonetic"
             className="block font-bold text-sm uppercase tracking-wider mb-2 opacity-70"
           >
             Pronunciation (Brazilian-readable)
           </Label>
           <Input
-            id="edit-fonetica"
+            id="edit-phonetic"
             className="text-lg font-mono"
             placeholder="e.g., /ske-dju-ler/ or /DÔU/"
-            value={fonetica}
+            value={phonetic}
             onChange={(e) => {
-              const nextFonetica = e.target.value
-              setFonetica(nextFonetica)
-              syncDraft({ phonetic: nextFonetica })
+              const nextPhonetic = e.target.value
+              setPhonetic(nextPhonetic)
+              syncDraft({ phonetic: nextPhonetic })
             }}
             disabled={loading}
           />

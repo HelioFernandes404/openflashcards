@@ -29,13 +29,13 @@ RUN apk add --no-cache ca-certificates tzdata su-exec && \
 
 WORKDIR /app
 COPY --from=builder /out/api /app/api
-COPY --from=fsrs-builder /src/target/release/cogcs-fsrs-optimize /app/cogcs-fsrs-optimize
+COPY --from=fsrs-builder /src/target/release/openflashcards-fsrs-optimize /app/openflashcards-fsrs-optimize
 COPY apps/api/migrations /app/migrations
 COPY apps/api/docker-entrypoint.sh /docker-entrypoint.sh
 
-ENV FSRS_OPTIMIZER_BIN=/app/cogcs-fsrs-optimize
+ENV FSRS_OPTIMIZER_BIN=/app/openflashcards-fsrs-optimize
 
-RUN chown -R app:app /app && chmod +x /docker-entrypoint.sh /app/cogcs-fsrs-optimize
+RUN chown -R app:app /app && chmod +x /docker-entrypoint.sh /app/openflashcards-fsrs-optimize
 
 EXPOSE 3030
 ENTRYPOINT ["/docker-entrypoint.sh"]

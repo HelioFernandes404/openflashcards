@@ -12,7 +12,7 @@ const baseCard: Card = {
   deckId: 'deck-1',
   front: 'hello',
   back: 'hello',
-  fonetica: '/hé-lou/',
+  phonetic: '/hé-lou/',
   audioUrl: 'https://example.com/audio.mp3',
   stability: 1,
   difficulty: 5,

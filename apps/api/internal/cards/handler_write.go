@@ -15,7 +15,7 @@ type createReq struct {
 	Back       string  `json:"back" binding:"required,min=1"`
 	AudioURL   *string `json:"audioUrl"`
 	ImagemURL  *string `json:"imagemUrl"`
-	Fonetica   *string `json:"fonetica"`
+	Phonetic   *string `json:"phonetic"`
 	TTSEnabled *bool   `json:"ttsEnabled"`
 }
 
@@ -42,7 +42,7 @@ func (h *Handler) create(c *gin.Context) {
 		Back:       req.Back,
 		AudioURL:   req.AudioURL,
 		ImagemURL:  req.ImagemURL,
-		Fonetica:   req.Fonetica,
+		Phonetic:   req.Phonetic,
 		TTSEnabled: ttsEnabled,
 	})
 	if err != nil {
@@ -57,7 +57,7 @@ type updateReq struct {
 	Back       *string `json:"back"`
 	AudioURL   *string `json:"audioUrl"`
 	ImagemURL  *string `json:"imagemUrl"`
-	Fonetica   *string `json:"fonetica"`
+	Phonetic   *string `json:"phonetic"`
 	TTSEnabled *bool   `json:"ttsEnabled"`
 }
 
@@ -76,7 +76,7 @@ func (h *Handler) update(c *gin.Context) {
 	card, err := h.svc.Update(c.Request.Context(), id, uid, UpdateInput{
 		Front: req.Front, Back: req.Back,
 		AudioURL: req.AudioURL, ImagemURL: req.ImagemURL,
-		Fonetica: req.Fonetica, TTSEnabled: req.TTSEnabled,
+		Phonetic: req.Phonetic, TTSEnabled: req.TTSEnabled,
 	})
 	if err != nil {
 		auth.WriteError(c, err)

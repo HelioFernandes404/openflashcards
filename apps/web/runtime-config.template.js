@@ -1,6 +1,6 @@
-window.__COGCS_CONFIG__ = {
-  apiUrl: "${COGCS_API_URL}",
-  apiTimeout: "${COGCS_API_TIMEOUT}",
-  apiRetryAttempts: "${COGCS_API_RETRY_ATTEMPTS}",
-  apiRetryDelay: "${COGCS_API_RETRY_DELAY}",
+window.__OPENFLASHCARDS_CONFIG__ = {
+  apiUrl: "${OPENFLASHCARDS_API_URL}",
+  apiTimeout: "${OPENFLASHCARDS_API_TIMEOUT}",
+  apiRetryAttempts: "${OPENFLASHCARDS_API_RETRY_ATTEMPTS}",
+  apiRetryDelay: "${OPENFLASHCARDS_API_RETRY_DELAY}",
 };

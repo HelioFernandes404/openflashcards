@@ -18,7 +18,7 @@ function getWindowRuntimeConfig(): RuntimeConfig | undefined {
     return undefined
   }
 
-  return window.__COGCS_CONFIG__
+  return window.__OPENFLASHCARDS_CONFIG__
 }
 
 export function readRuntimeConfig(): ResolvedRuntimeConfig | undefined {

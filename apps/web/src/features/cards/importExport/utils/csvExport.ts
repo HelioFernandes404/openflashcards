@@ -66,22 +66,22 @@ export function downloadCsv(content: string, filename: string): void {
 // =============================================================================
 
 export interface ErrorExportRow {
-  linha: number
+  line: number
   front: string
   back: string
-  erro: string
+  error: string
 }
 
 export function generateErrorCsv(errors: ErrorExportRow[]): string {
-  const headers = ['linha', 'front', 'back', 'erro']
+  const headers = ['line', 'front', 'back', 'error']
   const rows: string[] = [headers.join(',')]
 
   for (const error of errors) {
     const row = [
-      String(error.linha),
+      String(error.line),
       escapeCsvField(error.front),
       escapeCsvField(error.back),
-      escapeCsvField(error.erro),
+      escapeCsvField(error.error),
     ]
     rows.push(row.join(','))
   }

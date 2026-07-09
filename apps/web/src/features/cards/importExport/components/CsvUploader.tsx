@@ -112,7 +112,7 @@ export function CsvUploader({
             or drag a CSV file
           </div>
           <p className="text-sm text-neutral-500">
-            Format: front, back, fonetica (optional)
+            Format: front, back, phonetic (optional)
           </p>
         </div>
       )}

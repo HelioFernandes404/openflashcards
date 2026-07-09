@@ -98,7 +98,7 @@ export function FsrsGuidePanel() {
               (how hard the material is). After every review, FSRS updates both
               and sets the next{' '}
               <strong className="font-medium text-on-surface">due</strong> date.
-              CogCS uses the official{' '}
+              OpenFlashcards uses the official{' '}
               <a
                 href="https://github.com/open-spaced-repetition/go-fsrs"
                 target="_blank"

@@ -12,7 +12,7 @@ export function cardToEditDraft(card: Card): CardEditDraft {
   return {
     front: card.front,
     back: card.back,
-    phonetic: card.fonetica ?? '',
+    phonetic: card.phonetic ?? '',
     imagemUrl: card.imagemUrl,
   }
 }

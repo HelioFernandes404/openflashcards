@@ -5,7 +5,7 @@
 export interface ParsedCsvRow {
   front: string
   back: string
-  fonetica?: string
+  phonetic?: string
   _rowIndex: number // Original row index for error reporting
 }
 
@@ -99,7 +99,7 @@ export interface ImportState {
 export interface BulkCardItem {
   front: string
   back: string
-  fonetica?: string
+  phonetic?: string
   ttsEnabled?: boolean
 }
 
@@ -127,5 +127,5 @@ export interface ImportResult {
 export interface ExportCardItem {
   front: string
   back: string
-  fonetica?: string
+  phonetic?: string
 }

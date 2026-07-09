@@ -46,7 +46,7 @@ type CreateInput struct {
 	Back       string
 	AudioURL   *string
 	ImagemURL  *string
-	Fonetica   *string
+	Phonetic   *string
 	TTSEnabled bool
 }
 
@@ -73,7 +73,7 @@ func (s *Service) Create(ctx context.Context, in CreateInput) (Card, error) {
 		Back:         in.Back,
 		AudioUrl:     in.AudioURL,
 		ImagemUrl:    in.ImagemURL,
-		Fonetica:     in.Fonetica,
+		Fonetica:     in.Phonetic,
 		TtsEnabled:   in.TTSEnabled,
 		State:        "new",
 		Stability:    newCard.Stability,
@@ -164,7 +164,7 @@ type UpdateInput struct {
 	Back       *string
 	AudioURL   *string
 	ImagemURL  *string
-	Fonetica   *string
+	Phonetic   *string
 	TTSEnabled *bool
 }
 
@@ -178,7 +178,7 @@ func (s *Service) Update(ctx context.Context, id, userID uuid.UUID, in UpdateInp
 		Back:       in.Back,
 		AudioUrl:   in.AudioURL,
 		ImagemUrl:  in.ImagemURL,
-		Fonetica:   in.Fonetica,
+		Fonetica:   in.Phonetic,
 		TtsEnabled: in.TTSEnabled,
 	})
 	if err != nil {

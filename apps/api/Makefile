@@ -6,7 +6,7 @@ GO := GOWORK=off go
 
 # Atlas migration directory and DB connection (override DATABASE_URL as needed).
 MIGRATIONS_DIR := file://migrations
-DATABASE_URL ?= postgres://postgres:postgres@localhost:5432/cogcs?sslmode=disable
+DATABASE_URL ?= postgres://postgres:postgres@localhost:5432/openflaskcards?sslmode=disable
 
 help: ## Show available targets
 	@grep -E '^[a-zA-Z_-]+:.*?## .*$$' $(MAKEFILE_LIST) | \

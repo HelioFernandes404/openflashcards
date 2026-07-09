@@ -24,7 +24,7 @@ FROM nginx:stable-alpine
 RUN rm /etc/nginx/conf.d/default.conf
 
 COPY nginx.conf /etc/nginx/conf.d/default.conf
-COPY runtime-config.template.js /etc/cogcs/runtime-config.template.js
+COPY runtime-config.template.js /etc/openflashcards/runtime-config.template.js
 COPY docker-entrypoint.sh /docker-entrypoint.d/40-render-runtime-config.sh
 RUN chmod +x /docker-entrypoint.d/40-render-runtime-config.sh
 

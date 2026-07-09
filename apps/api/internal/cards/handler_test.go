@@ -54,7 +54,7 @@ func (f *fakeCardsService) Create(_ context.Context, in CreateInput) (Card, erro
 	c := Card{
 		ID: uuid.New(), DeckID: in.DeckID,
 		Front: in.Front, Back: in.Back,
-		AudioURL: in.AudioURL, ImagemURL: in.ImagemURL, Fonetica: in.Fonetica,
+		AudioURL: in.AudioURL, ImagemURL: in.ImagemURL, Phonetic: in.Phonetic,
 		TTSEnabled: in.TTSEnabled,
 		State:      "new",
 		Due:        time.Now().UTC(),
@@ -130,7 +130,7 @@ func (f *fakeCardsService) BulkCreate(_ context.Context, in BulkCreateInput) (Bu
 		}
 		c := Card{
 			ID: uuid.New(), DeckID: in.DeckID, Front: front, Back: back,
-			Fonetica: item.Fonetica, TTSEnabled: ttsEnabled, State: "new",
+			Phonetic: item.Phonetic, TTSEnabled: ttsEnabled, State: "new",
 			Due: time.Now().UTC(), CreatedAt: time.Now().UTC(), UpdatedAt: time.Now().UTC(),
 		}
 		f.cards[c.ID] = c

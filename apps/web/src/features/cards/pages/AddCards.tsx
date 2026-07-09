@@ -24,7 +24,7 @@ export function AddCards() {
 
   const [front, setFront] = useState('')
   const [back, setBack] = useState('')
-  const [fonetica, setFonetica] = useState('')
+  const [phonetic, setPhonetic] = useState('')
   const [selectedDeckId, setSelectedDeckId] = useState(
     deckId || decks[0]?.id || '',
   )
@@ -53,13 +53,13 @@ export function AddCards() {
       deckId: selectedDeckId,
       front: front.trim(),
       back: back.trim(),
-      fonetica: fonetica.trim() || undefined,
+      phonetic: phonetic.trim() || undefined,
       imagemUrl,
     })
     showToast('Card added')
     setFront('')
     setBack('')
-    setFonetica('')
+    setPhonetic('')
     setImagemUrl(undefined)
     setShowImage(false)
   }
@@ -164,15 +164,15 @@ export function AddCards() {
                 </div>
 
                 <div>
-                  <Label htmlFor="fonetica" className={formLabelClass}>
+                  <Label htmlFor="phonetic" className={formLabelClass}>
                     Pronunciation
                   </Label>
                   <Input
-                    id="fonetica"
+                    id="phonetic"
                     data-testid="add-cards-pronunciation-input"
                     placeholder="Optional — e.g. /ske-dju-ler/"
-                    value={fonetica}
-                    onChange={(e) => setFonetica(e.target.value)}
+                    value={phonetic}
+                    onChange={(e) => setPhonetic(e.target.value)}
                   />
                 </div>
 
