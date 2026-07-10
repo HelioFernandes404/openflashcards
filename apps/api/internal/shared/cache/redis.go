@@ -9,13 +9,14 @@ import (
 	"github.com/redis/go-redis/v9"
 )
 
-func NewRedis(ctx context.Context, host string, port int, db int) (*redis.Client, error) {
+func NewRedis(ctx context.Context, host string, port int, password string, db int) (*redis.Client, error) {
 	// Short explicit timeouts: Redis backs the auth rate limiter and TTS
 	// cache, both on the request path — a slow Redis must fail fast into
 	// each caller's degraded mode instead of adding tail latency to every
 	// request.
 	client := redis.NewClient(&redis.Options{
 		Addr:         fmt.Sprintf("%s:%d", host, port),
+		Password:     password,
 		DB:           db,
 		DialTimeout:  2 * time.Second,
 		ReadTimeout:  500 * time.Millisecond,
