@@ -45,6 +45,12 @@ typography:
     fontWeight: '700'
     lineHeight: '1.2'
     letterSpacing: -0.02em
+  display-md:
+    fontFamily: Space Grotesk
+    fontSize: 48px
+    fontWeight: '700'
+    lineHeight: '1.1'
+    letterSpacing: -0.03em
   headline-lg:
     fontFamily: Space Grotesk
     fontSize: 32px
