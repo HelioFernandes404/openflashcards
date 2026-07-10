@@ -70,7 +70,7 @@ func run() error {
 	}
 	defer pool.Close()
 
-	redis, err := cache.NewRedis(ctx, cfg.RedisHost, cfg.RedisPort, cfg.RedisDB)
+	redis, err := cache.NewRedis(ctx, cfg.RedisHost, cfg.RedisPort, cfg.RedisPassword, cfg.RedisDB)
 	if err != nil {
 		log.Warn("redis unavailable, continuing without TTS cache", zap.Error(err))
 	}

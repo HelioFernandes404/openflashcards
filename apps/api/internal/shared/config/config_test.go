@@ -58,3 +58,13 @@ func TestRejectsShortJWTSecret(t *testing.T) {
 		t.Fatal("expected error for short JWT_SECRET, got nil")
 	}
 }
+
+func TestRejectsJWTSecretPlaceholder(t *testing.T) {
+	t.Setenv("DATABASE_URL", "postgres://test")
+	t.Setenv("JWT_SECRET", "your_jwt_secret_min_32_chars_here_make_it_random")
+
+	_, err := Load()
+	if err == nil {
+		t.Fatal("expected error for placeholder JWT_SECRET, got nil")
+	}
+}

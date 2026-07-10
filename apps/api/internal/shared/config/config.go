@@ -23,6 +23,7 @@ type Config struct {
 	// Redis (TTS cache)
 	RedisHost          string `envconfig:"REDIS_TTS_HOST" default:"localhost"`
 	RedisPort          int    `envconfig:"REDIS_TTS_PORT" default:"6379"`
+	RedisPassword      string `envconfig:"REDIS_PASSWORD" default:""`
 	RedisDB            int    `envconfig:"REDIS_TTS_DB" default:"1"`
 	TTSCacheTTLSeconds int    `envconfig:"TTS_CACHE_TTL" default:"31536000"`
 	TTSProvider        string `envconfig:"TTS_PROVIDER" default:"google"`
@@ -95,6 +96,9 @@ func Load() (*Config, error) {
 	}
 	if len(cfg.JWTSecret) < 32 {
 		return nil, fmt.Errorf("config: JWT_SECRET must be at least 32 characters")
+	}
+	if cfg.JWTSecret == "your_jwt_secret_min_32_chars_here_make_it_random" {
+		return nil, fmt.Errorf("config: JWT_SECRET must not be the placeholder value; generate a random secret with: openssl rand -base64 48")
 	}
 	return &cfg, nil
 }
